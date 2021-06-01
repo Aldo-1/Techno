@@ -11,12 +11,13 @@
 </head>
 <body>
   <div id="app">
-    <section class="modal" v-if="produto">
+    <section class="modal" v-if="produto" @click="fecharModal">
       <div class="modal_container">
         <div class="modal_img">
           <img :src="produto.img" :alt="produto.nome"></img>
         </div>
         <div class="modal_dados">
+        <button @click="produto=!produto" class="modal_fechar">X</button>
           <span class="modal_preco">{{produto.preco | numeroPreco}}</span>
           <h2 class="modal_titulo">{{produto.nome}}</h2>
           <p>{{produto.descricao}}</p>
@@ -34,7 +35,7 @@
       </div>
     </section>
     <section class="produtos">
-      <div @click="fetchProduto(item.id)" v-for="item in produtos" :key="item.id" class="produto">
+      <div @click="abrirModal(item.id)" v-for="item in produtos" :key="item.id" class="produto">
         <img :src="item.img" :alt="item.nome" class="produto_img"></img>
         <div class="produto_info">
           <span class="produto_preco">{{item.preco | numeroPreco}}</span>  
