@@ -11,6 +11,27 @@
 </head>
 <body>
   <div id="app">
+    <header class="header">
+      <img class="logo" src="./assets/techno.svg" alt="techno">
+      <div class="carrinho_menu">
+      {{carrinhoTotal | numeroPreco}} | {{carrinho.length}}
+      </div>
+      <ul>
+        <li v-for="(item,index) in carrinho">
+          <p>{{item.nome}}</p>
+          <button @click="removerItem(index)">X</button>
+        </li>
+      </ul>
+    </header>
+    <section class="produtos">
+      <div @click="abrirModal(item.id)" v-for="item in produtos" :key="item.id" class="produto">
+        <img :src="item.img" :alt="item.nome" class="produto_img"></img>
+        <div class="produto_info">
+          <span class="produto_preco">{{item.preco | numeroPreco}}</span>  
+          <span class="produto_titulo">{{item.nome}}</span>  
+        </div>
+      </div>
+    </section>
     <section class="modal" v-if="produto" @click="fecharModal">
       <div class="modal_container">
         <div class="modal_img">
@@ -21,7 +42,7 @@
           <span class="modal_preco">{{produto.preco | numeroPreco}}</span>
           <h2 class="modal_titulo">{{produto.nome}}</h2>
           <p>{{produto.descricao}}</p>
-          <button class="modal_btn">Adicionar Item</button>
+          <button class="modal_btn" :disabled="produto.estoque < 0" @click="adicionarItem">{{haveProduct}}</button>
         </div>
         <div class="avaliacoes">
           <h2 class="avaliacoes_subtitulo">Avaliações</h2>
@@ -34,15 +55,10 @@
         </div>
       </div>
     </section>
-    <section class="produtos">
-      <div @click="abrirModal(item.id)" v-for="item in produtos" :key="item.id" class="produto">
-        <img :src="item.img" :alt="item.nome" class="produto_img"></img>
-        <div class="produto_info">
-          <span class="produto_preco">{{item.preco | numeroPreco}}</span>  
-          <span class="produto_titulo">{{item.nome}}</span>  
-        </div>
-      </div>
-    </section>
+
+    <div class="alerta" :class="{ativo: alertaAtivo}">
+      <p class="alerta_mensagem">{{mensagemAlerta}}</p>
+    </div>
   </div>
   <script src="./app.js"></script>
 </body>
